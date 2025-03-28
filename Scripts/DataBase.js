@@ -8,7 +8,7 @@ import {
     getDocs 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
- const firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyB3mFywI84hXOvQmz0LDi6dgl704sEbuH8",
     authDomain: "certificadora-de-competencia.firebaseapp.com",
     projectId: "certificadora-de-competencia",
@@ -21,4 +21,69 @@ import {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
+async function getStorage() {
+    try {
+        const ref = collection(db, "Storage");
+        const snapshot = await getDocs(ref);
+        const storage = [];
+
+        snapshot.forEach(doc => {
+            const data = doc.data(); 
+
+            storage.push({
+                id: data.id || "",
+                nome: data.nome || "Sem nome",
+                quant: data.qtd <= 0 ? "Sem Estoque": data.qtd,
+
+            });
+        });
+
+        return storage;
+    } catch (error) {
+        console.error(error.message);
+        return [];
+    }
+}
+
+async function getDonate() {
+    try{
+        const ref = collection(db, "Donate");
+        const snapshot = await getDocs(ref);
+        const donate = [];
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+
+            donate.push({
+                id: data.id || ""
+            });
+        })
+    } catch(error){
+        console.error(error.massage);
+        return [];
+    }
+}
+
+async function get() {
+    try{
+        const ref = collection(db, "Donate");
+        const snapshot = await getDocs(ref);
+        const donate = [];
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+
+            donate.push({
+                id: data.id || ""
+            });
+        })
+    } catch(error){
+        console.error(error.massage);
+        return [];
+    }
+}
+
+
+export {getStorage, getDonate};
 
