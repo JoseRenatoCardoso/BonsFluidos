@@ -5,7 +5,10 @@ import {
 import { 
     getFirestore, 
     collection, 
-    getDocs 
+    getDocs,
+    addDoc,
+    updateDoc,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -65,25 +68,33 @@ async function getDonate() {
     }
 }
 
-async function get() {
-    try{
-        const ref = collection(db, "Donate");
-        const snapshot = await getDocs(ref);
-        const donate = [];
-
-        snapshot.forEach(doc => {
-            const data = doc.data();
-
-            donate.push({
-                id: data.id || ""
-            });
-        })
-    } catch(error){
-        console.error(error.massage);
-        return [];
+async function updateData(collection, id, newData) {
+    try {
+      await updateDoc(doc(db, collection, id), newData);
+      console.log("Documento atualizado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao atualizar documento:", error);
     }
-}
+  }
+
+  async function deleteData(collection, id) {
+    try {
+      await deleteDoc(doc(db, collection, id));
+      console.log("Documento deletado com sucesso!");
+    } catch (error) {
+      console.error("Erro ao deletar documento:", error);
+    }
+  }
+
+  async function createData(collectionName, data) {
+    try {
+      const docRef = await addDoc(collection(db, collectionName), data);
+      console.log("Documento criado com sucesso! ID:", docRef.id);
+    } catch (error) {
+      console.error("Erro ao criar documento:", error);
+    }
+  }
 
 
-export {getStorage, getDonate};
+export {getStorage, getDonate, updateData, deleteData, createData};
 
