@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import { 
     initializeApp 
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -12,7 +14,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyB3mFywI84hXOvQmz0LDi6dgl704sEbuH8",
+    apiKey : process.env.API_KEY,
     authDomain: "certificadora-de-competencia.firebaseapp.com",
     projectId: "certificadora-de-competencia",
     storageBucket: "certificadora-de-competencia.firebasestorage.app",
